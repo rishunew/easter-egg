@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Pugs Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #fff; }
+        .logo { font-size: 90px; font-weight: bold; margin-bottom: 20px; text-align: center; }
+        .g-b { color: #4285F4; } .g-r1 { color: #EA4335; } .g-y { color: #FBBC05; } .g-g { color: #34A853; } .g-r2 { color: #EA4335; }
+        .search-container { position: relative; width: 90%; max-width: 580px; text-align: center; }
+        .search-bar { width: 100%; padding: 15px 20px; font-size: 16px; border: 1px solid #dfe1e5; border-radius: 24px; outline: none; box-sizing: border-box; }
+        .search-bar:hover, .search-bar:focus { box-shadow: 0 1px 6px rgba(32,33,36,0.28); border-color: rgba(223,225,229,0); }
+        .buttons { margin-top: 25px; }
+        button { background-color: #f8f9fa; border: 1px solid #f8f9fa; border-radius: 4px; color: #3c4043; font-size: 14px; margin: 11px 4px; padding: 0 16px; height: 36px; cursor: pointer; }
+        button:hover { border: 1px solid #dadce0; color: #202124; background-color: #f1f3f4; }
+        .easter-egg-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.98); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; }
+        .egg-card { text-align: center; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); max-width: 400px; width: 85%; }
+        .egg-card .avatar-box { font-size: 100px; line-height: 120px; background: #f3f3f3; border-radius: 50%; width: 150px; height: 150px; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; border: 4px dashed #4285F4; }
+        .egg-card h2 { color: #333; margin: 10px 0; }
+        .egg-card p { color: #666; font-size: 15px; margin-bottom: 20px; }
+        .close-btn { background: #4285F4; color: white; border: none; padding: 10px 25px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px; }
+        .close-btn:hover { background: #357ae8; }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+        <span class="g-b">G</span><span class="g-r1">o</span><span class="g-y">o</span><span class="g-b">g</span><span class="g-g">l</span><span class="g-r2">e</span>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search goldie, spotty, or peanut..." autofocus autocomplete="off">
+        <div class="buttons">
+            <button onclick="triggerSearch()">Google Search</button>
+            <button onclick="triggerSearch()">I'm Feeling Lucky</button>
+        </div>
+    </div>
+
+    <!-- Easter Egg Popup box using solid system graphic avatars -->
+    <div id="eggContainer" class="easter-egg-overlay">
+        <div class="egg-card">
+            <div id="eggAvatar" class="avatar-box">🐕</div>
+            <h2 id="eggTitle"></h2>
+            <p id="eggDesc"></p>
+            <button class="close-btn" onclick="closeEgg()">Search Again</button>
+        </div>
+    </div>
+
+    <script>
+        const toyDatabase = {
+            "goldie": {
+                name: "Goldie 🐕",
+                avatar: "🦮",
+                desc: "You found Goldie! The golden-coloured interactive puppy toy from the Hamleys Pugs at Play collection that wags its tail and barks!"
+            },
+            "spotty": {
+                name: "Spotty 🐾",
+                avatar: "🐕‍🦺",
+                desc: "You found Spotty! The playful white puppy with multi-coloured spots that walks forward when activated!"
+            },
+            "peanut": {
+                name: "Peanut the Pug 🥜",
+                avatar: "🐶",
+                desc: "You found Peanut! The adorable tan pug with the wrinkled black snout who loves to walk around!"
+            }
+        };
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') triggerSearch();
+        });
+
+        function triggerSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            let foundPet = null;
+
+            if (query.includes('goldie')) foundPet = toyDatabase.goldie;
+            else if (query.includes('spotty')) foundPet = toyDatabase.spotty;
+            else if (query.includes('peanut')) foundPet = toyDatabase.peanut;
+
+            if (foundPet) {
+                document.getElementById('eggAvatar').innerText = foundPet.avatar;
+                document.getElementById('eggTitle').innerText = `✨ Custom Easter Egg: ${foundPet.name} ✨`;
+                document.getElementById('eggDesc').innerText = foundPet.desc;
+                document.getElementById('eggContainer').style.display = 'flex';
+            } else {
+                alert('Easter egg clue: Try searching exactly for "goldie", "spotty", or "peanut"!');
+            }
+        }
+
+        function closeEgg() {
+            document.getElementById('eggContainer').style.display = 'none';
+            document.getElementById('searchInput').value = '';
+        }
+    </script>
+</body>
+</html>
